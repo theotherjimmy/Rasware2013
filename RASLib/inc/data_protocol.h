@@ -1,7 +1,11 @@
 //
-// This code is intended to faciliate communication between the microcontroller and a connected computer by providing a subscriber/publisher framework to send and respond to data. Data is sent over UART using JSON encoding.
+// This code is intended to faciliate communication between the microcontroller and a connected computer by 
+// providing a subscriber/publisher framework to send and respond to data. Data is sent over UART using JSON 
+// encoding.
 //
-// To start publishing sensor data, initialize the sensor, create a handler to stringify the sensor's data, and then call the AddPublisher function with the handler and an optional data pointer. Finally, call the BeginPublishing function to start a periodic timer event to call the handler and publish the data. 
+// To start publishing sensor data, initialize the sensor, create a handler to stringify the sensor's data, 
+// and then call the AddPublisher function with the handler and an optional data pointer. Finally, call the 
+// BeginPublishing function to start a periodic timer event to call the handler and publish the data. 
 //
 // For example, the following code will publishing data from two encoders:
 //
@@ -20,11 +24,13 @@
 //
 //      BeginPublishing(.1);
 //
-// BeginPublishing will schedule a timer event to publish the following JSON-encoded data over UART every .1 seconds:
+// BeginPublishing will schedule a timer event to publish the following JSON-encoded data over UART every .1 
+// seconds:
 //
 //      {"right_encoder":"<right encoder ticks>","left_encoder":"<left encoder ticks>"}\n
 //
-// Similarly, the following code will parse messages sent to the microcontroller in order to set motor powers:
+// Similarly, the following code will parse messages sent to the microcontroller in order to set motor 
+// powers:
 //
 //      void motorSubscriber(void* data, char* jsonvalue) {
 //          int power = atoi(jsonvalue);
@@ -44,11 +50,13 @@
 //
 //      BeginSubscribing();
 //
-// BeginSubscribing will read lines from UART in a loop, trying to parse JSON-encoded objects. If it parses a JSON-encoded message that has either a "motor_right" or "motor_left" field, like this:
+// BeginSubscribing will read lines from UART in a loop, trying to parse JSON-encoded objects. If it 
+// parses a JSON-encoded message that has either a "motor_right" or "motor_left" field, like this:
 //
 //      {"right_motor":"<right motor power>","left_motor":"<left motor power>"}\n
 //  
-//  It will then call the motorSubscriber handler for "right_motor" and "left_motor", which will set the left and right motors to the power provided.
+// It will then call the motorSubscriber handler for "right_motor" and "left_motor", which will set the 
+// left and right motors to the power provided.
 //
 
 // Adds a handler that will be called to create a string value for the given key 
