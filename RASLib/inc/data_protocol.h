@@ -3,11 +3,11 @@
 // providing a subscriber/publisher framework to send and respond to data. Data is sent over UART using JSON 
 // encoding.
 //
-// To start publishing sensor data, initialize the sensor, create a handler to stringify the sensor's data, 
-// and then call the AddPublisher function with the handler and an optional data pointer. Finally, call the 
+// To start publishing sensor data, first initialize the sensor, then create a handler to stringify the sensor's 
+// data, and then call the AddPublisher function with the handler and an optional data pointer. Finally, call the 
 // BeginPublishing function to start a periodic timer event to call the handler and publish the data. 
 //
-// For example, the following code will publishing data from two encoders:
+// For example, the following code will publish data from two encoders:
 //
 //      char buffer[20];
 //
