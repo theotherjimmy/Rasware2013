@@ -59,6 +59,13 @@
 // left and right motors to the power provided.
 //
 
+#define MAX_PUBLISHERS 10
+#define MAX_SUBSCRIBERS 10
+#define MAX_KEY_LEN 15
+#define MAX_VAL_LEN 20
+#define KEY_BUFF_SIZE 300
+#define MAX_MSG_SIZE 1000
+
 // Adds a handler that will be called to create a string value for the given key 
 // (this will deepcopy jsonkey to an internal buffer)
 void AddPublisher(char *jsonkey, void *data, char* (*handler)(void*)); 
