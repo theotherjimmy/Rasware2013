@@ -64,7 +64,9 @@
 #define MAX_KEY_LEN 15
 #define MAX_VAL_LEN 20
 #define KEY_BUFF_SIZE 300
-#define MAX_MSG_SIZE 1000
+#define MAX_IN_MSG_SIZE 1000
+#define MAX_OUT_MSG_SIZE 1000
+#define MAX_IN_TOKENS 20
 
 // Adds a handler that will be called to create a string value for the given key 
 // (this will deepcopy jsonkey to an internal buffer)
@@ -78,5 +80,5 @@ void AddSubscriber(char *jsonkey, void *data, void (*handler)(void*,char*));
 void BeginPublishing(float period);
 
 // Begins parsing messages and calling subscriber handlers in a blocking loop
-void BeginSubscribing();
+void BeginSubscribing(float secsBetweenReads);
 
