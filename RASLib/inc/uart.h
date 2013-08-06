@@ -22,6 +22,11 @@
 //*****************************************************************************
 
 
-#include "utils/uartstdio.h"
+#ifndef __UART_H_
+#define __UART_H_
+
+#include <stdio.h>
 
 void InitializeUART(void);
+
+#endif /* __UART_H_ */

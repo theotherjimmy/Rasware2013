@@ -1,4 +1,3 @@
-all:
 ###############################################################################
 # Configuration Variables
 
@@ -6,13 +5,13 @@ all:
 Jimmy-P	    := yes
 
 #Taget Binary Name
-TARGET      := RASDemo
+TARGET      := RAS
 
 # List all the source files here
-SOURCES     := $(wildcard *.c)
+SOURCES     := $(wildcard src/*.c)
 
 # Includes are located in the Include directory
-INCLUDES    := .
+INCLUDES    := inc
 
 # Path to the root of your ARM toolchain
 TOOL        := $(shell dirname `which arm-none-eabi-gcc`)
@@ -25,7 +24,7 @@ TWD_DIR	:=  ../../TivaWare
 endif
 
 # Location of a linker script, doesnt matter which one, they're the same
-LD_SCRIPT   := LM4F.ld
+LD_SCRIPT   := tm4c.ld
 
 # FPU Type
 FPU          := hard
@@ -69,7 +68,7 @@ CFLAGS     += -mthumb
 CFLAGS     += -mcpu=cortex-m4
 CFLAGS     += -mfloat-abi=$(FPU)
 CFLAGS     += -mfpu=fpv4-sp-d16
-CFLAGS     += -O3
+CFLAGS     += -Os
 CFLAGS     += -ffunction-sections
 CFLAGS     += -fdata-sections
 CFLAGS     += -MD
@@ -86,39 +85,8 @@ CFLAGS     += -I$(SW_DIR)/include -I$(INCLUDES)
 else
 CFLAGS     += -I$(SW_DIR) -I$(INCLUDES)
 endif
-
-LIBS	   += c
-LIBS	   += RAS
-LIBS       += driver-cm4f
-LIBS	   += m
-LIBS	   += gcc
-
-LDFLAGS    += -T $(LD_SCRIPT)
-LDFLAGS    += -g
-LDFLAGS	   += -L ../RASLib/bin/
-
-ifeq ($(Jimmy-P),yes)
-LDFLAGS	   += -L ${SW_DIR}/lib/
-else
-LDFLAGS	   += -L ${SW_DIR}/driverlib/gcc/
-endif
-
-ifeq (${FPU},hard)
-LDFLAGS    += -L ${TOOL}/../arm-none-eabi/lib/thumb/cortex-m4/float-abi-hard/fpuv4-sp-d16/
-LDFLAGS	   += -L /usr/lib/gcc/arm-none-eabi/4.8.0/thumb/cortex-m4/float-abi-hard/fpuv4-sp-d16/
-else
-LDFLAGS    += -L ${TOOL}/../arm-none-eabi/lib/thumb/cortex-m4/
-LDFLAGS	   += -L /usr/lib/gcc/arm-none-eabi/4.8.0/thumb/cortex-m4/float-abi-hard/fpuv4-sp-d16/
-endif
-LDFLAGS	   +=
-
-LDFLAGS    += --gc-sections
-LDFLAGS    += -nostdlib
 # Flag Definitions
 ###############################################################################
-
-OBJECTS    := $(patsubst %.o, bin/%.o, $(SOURCES:.c=.o))
-ASMS       := $(patsubst %.s, bin/%.s, $(SOURCES:.c=.s))
 
 -include ${OBJECTS:.o=.d}
 
@@ -126,45 +94,29 @@ ASMS       := $(patsubst %.s, bin/%.s, $(SOURCES:.c=.s))
 $(eval $(shell	$(MKDIR) bin))
 
 # Object File Directory, keeps things tidy
+OBJECTS    := $(patsubst src/%.o, bin/%.o, $(SOURCES:.c=.o))
+ASMS       := $(patsubst src/%.s, bin/%.s, $(SOURCES:.c=.s))
+
 ###############################################################################
 # Command Definitions, Leave it alone unless you hate yourself.
 
-all: bin/$(TARGET).axf
+all: bin/lib$(TARGET).a 
 
 asm: $(ASMS)
 
 # Compiler Command
-bin/%.o: %.c
+bin/%.o: src/%.c
 	$(CC) -c $(CFLAGS) -o $@ $< -MT $@ -MT ${@:.o=.s}
 
 # Create Assembly
-bin/%.s: %.c
+bin/%.s: src/%.c
 	$(CC) -S $(CFLAGS) -o $@ $< -MT ${@:.s=.o} -MT $@
 
-# Linker Command
-bin/$(TARGET).out: $(OBJECTS)
-	$(LD) $(LDFLAGS) -o $@ $(OBJECTS) $(patsubst %,-l%, ${LIBS})
-
-# Create the Final Image
-bin/$(TARGET).axf: bin/$(TARGET).out
-	$(OBJCOPY) -O binary bin/$(TARGET).out bin/$(TARGET).axf
-
-
-# Calculate the Size of the Image
-size: bin/$(TARGET).out
-	$(SIZE) $<
+# Create Library
+bin/lib%.a : $(OBJECTS)
+	$(AR) rc $@ $^
 
 clean:
 	$(RM) bin
-
-flash: bin/${TARGET}.axf
-	$(FLASH) bin/$(TARGET).axf;                                              
-
-debug: flash  bin/${TARGET}.out
-	bash	./.debug bin/${TARGET}.out
-
-uart: flash
-	${UART} /dev/lm4f 115200
-
 # Command Definitions, Leave it alone unless you hate yourself.
 ###############################################################################

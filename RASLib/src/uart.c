@@ -46,5 +46,5 @@ void InitializeUART(void)
     GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);
 
     // Initialize the UART for console I/O.
-    UARTStdioInit(0);
+    //    UARTStdioInit(0);
 }

@@ -1,13 +1,13 @@
 #include <inc/hw_types.h>		// tBoolean
 #include <inc/hw_memmap.h>
-#include <utils/uartstdio.h>	// input/output over UART
+//#include <utils/uartstdio.h>	// input/output over UART
 #include <driverlib/uart.h>		// input/output over UART
 #include <driverlib/gpio.h>
 #include <driverlib/sysctl.h>
 
 #include <driverlib/adc.h>
 
-#include <RASLib/inc/adc.h>
+#include "../RASLib/inc/adc.h"
 
 #include "RASDemo.h"
 
@@ -35,7 +35,7 @@ void initIRSensor(void) {
 
 void IRSensorDemo(void) {
 	// 2012 IRSensor Demo
-	UARTprintf("press any key to quit\n");
+	printf("press any key to quit\n");
     
     ADCReadContinouslyUS(adc[0], 0);
     ADCReadContinouslyUS(adc[1], 0);
@@ -44,15 +44,15 @@ void IRSensorDemo(void) {
 	
 	while(!keyWasPressed()) {
 		float ADCValue = ADCRead(adc[0]);
-	 	UARTprintf("IR value: %d\t", (int)(1000 * ADCValue));
+	 	printf("IR value: %d\t", (int)(1000 * ADCValue));
         ADCValue = ADCRead(adc[1]);
-	 	UARTprintf(" %d\t", (int)(1000 * ADCValue));
+	 	printf(" %d\t", (int)(1000 * ADCValue));
         ADCValue = ADCRead(adc[2]);
-	 	UARTprintf(" %d\t", (int)(1000 * ADCValue));
+	 	printf(" %d\t", (int)(1000 * ADCValue));
         ADCValue = ADCRead(adc[3]);
-	 	UARTprintf(" %d\r", (int)(1000 * ADCValue));
+	 	printf(" %d\r", (int)(1000 * ADCValue));
 	}	
-	UARTprintf("\n");
+	printf("\n");
 	
 	//UARTprintf("IRSensor Demo not working.\n");
 }

@@ -1,4 +1,4 @@
-#include <RASLib/inc/linesensor.h>
+#include "linesensor.h"
 
 void InitializeLineSensor(void) 
 {

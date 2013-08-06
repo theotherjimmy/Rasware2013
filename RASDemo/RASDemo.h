@@ -1,9 +1,8 @@
 // Functions in UARTDemo
 void initUART(void);
 void uartDemo(void);
-char getc(void);
-void putc(char ch);
 int keyWasPressed(void);
+#include <stdio.h>
 
 // Functions in MotorDemo
 

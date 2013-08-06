@@ -52,7 +52,9 @@
 // Resolution is a property of the microcontroller
 // and is 12 bits for the LM4F
 #define ADC_RESOLUTION 12
+//this is max value +1
 #define ADC_MAX (1<<ADC_RESOLUTION)
+
 
 // The ADC read time is also per microcontroller
 // Yes, the ADC in the LM4F takes a single microsecond
@@ -261,8 +263,8 @@ void ADC##MOD##SS0Handler(void) {                   \
         adc->value = *d++;                          \
 }
 
-ADC_S0_HANDLER(0);
-ADC_S0_HANDLER(1);
+ADC_S0_HANDLER(0)
+ADC_S0_HANDLER(1)
 
 
 // Interrupt handlers for sequence 1, which is used
@@ -292,8 +294,8 @@ void ADC##MOD##SS1Handler(void) {                           \
         mod->singleEnd = &mod->singleQueue;                 \
 }
 
-ADC_S1_HANDLER(0);
-ADC_S1_HANDLER(1);
+ADC_S1_HANDLER(0)
+ADC_S1_HANDLER(1)
 
 
 // Interrupt handler for periodic calls

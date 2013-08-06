@@ -58,10 +58,11 @@ struct Sonar {
         CALLBACK,
         DELAY,
         PENDING
-    } state : 4;
+    } state;
+  // why bit struct here 
     
     // If it is in continous mode
-    tBoolean continous : 1;
+    tBoolean continous;
 };
 
 // buffer for sonar state structs

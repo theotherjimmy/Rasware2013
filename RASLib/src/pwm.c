@@ -53,7 +53,7 @@ int pwmCount = 0;
 
 // Global initialization function called internally
 // To setup shared interrupts
-static InitializeGlobalPWM(void) {
+static void InitializeGlobalPWM(void) {
     // flag for initialization
     static tBoolean initialized = false;
     

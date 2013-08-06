@@ -66,12 +66,12 @@ void Port##PORT##Handler(void) {                                \
 }
 
 // Interrupt handlers for Ports A through F
-PORT_HANDLER(A);
-PORT_HANDLER(B);
-PORT_HANDLER(C);
-PORT_HANDLER(D);
-PORT_HANDLER(E);
-PORT_HANDLER(F);
+PORT_HANDLER(A)
+PORT_HANDLER(B)
+PORT_HANDLER(C)
+PORT_HANDLER(D)
+PORT_HANDLER(E)
+PORT_HANDLER(F)
 
 // Initialize GPIO
 void InitializeGPIO(void) {
