@@ -7,7 +7,7 @@ load
 monitor reset init
 
 # Set a breakpoint at main().
-break main.c:main
+break main
 
 # Run to the breakpoint.
 continue

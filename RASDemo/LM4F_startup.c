@@ -30,8 +30,8 @@
 * Description:  LM4F120H5QR startup code.
 */
 
-#include <inc/hw_nvic.h>
-#include <inc/hw_types.h>
+#include <StellarisWare/inc/hw_nvic.h>
+#include <StellarisWare/inc/hw_types.h>
 
 
 //-----------------------------------------------------------------------------
@@ -48,6 +48,37 @@ void nmi_handler(void);
 void empty_def_handler(void);
 // this is the code for an hard fault.
 void hardfault_handler(unsigned int * hardfault_args) ;
+extern void SysTickHandler(void);
+extern void PortAHandler(void);
+extern void PortBHandler(void);
+extern void PortCHandler(void);
+extern void PortDHandler(void);
+extern void PortEHandler(void);
+extern void PortFHandler(void);
+extern void I2C0Handler(void);
+extern void I2C1Handler(void);
+extern void I2C2Handler(void);
+extern void I2C3Handler(void);
+extern void I2C4Handler(void);
+extern void I2C5Handler(void);
+extern void ADC0SS0Handler(void);
+extern void ADC0SS1Handler(void);
+extern void ADC1SS0Handler(void);
+extern void ADC1SS1Handler(void);
+extern void Timer5Handler(void);
+extern void WTimer0AHandler(void);
+extern void WTimer0BHandler(void);
+extern void WTimer1AHandler(void);
+extern void WTimer1BHandler(void);
+extern void WTimer2AHandler(void);
+extern void WTimer2BHandler(void);
+extern void WTimer3AHandler(void);
+extern void WTimer3BHandler(void);
+extern void WTimer4AHandler(void);
+extern void WTimer4BHandler(void);
+extern void WTimer5AHandler(void);
+extern void WTimer5BHandler(void);
+extern void SysTickHandler(void);
 
 //-----------------------------------------------------------------------------
 //                 Variables declarations
@@ -65,6 +96,8 @@ extern unsigned long _edata;
 // .bss (uninitialized data to set to 0);
 extern unsigned long _sbss;
 extern unsigned long _ebss;
+
+int __errno;
 
 // NVIC ISR table
 // the funny looking void(* myvectors[])(void) basically it's a way to make cc accept an array of function pointers.
@@ -91,24 +124,24 @@ void(* myvectors[])(void) = {
     empty_def_handler,    // Debug monitor          12
     0,            // Reserved             13
     empty_def_handler,    // PendSV             14
-    empty_def_handler,    // SysTick              15
+  SysTickHandler,
     // Peripherial interrupts start here.
-    empty_def_handler,    // GPIO Port A            16
-    empty_def_handler,    // GPIO Port B            17
-    empty_def_handler,    // GPIO Port C            18
-    empty_def_handler,    // GPIO Port D            19
-    empty_def_handler,    // GPIO Port E            20
+  PortAHandler,    // GPIO Port A            16
+    PortBHandler,    // GPIO Port B            17
+    PortCHandler,    // GPIO Port C            18
+    PortDHandler,    // GPIO Port D            19
+    PortEHandler,    // GPIO Port E            20
     empty_def_handler,    // UART 0             21
     empty_def_handler,    // UART 1             22
     empty_def_handler,    // SSI 0              23
-    empty_def_handler,    // I2C 0              24
+    I2C0Handler,    // I2C 0              24
     0,            // Reserved             25
     0,            // Reserved             26
     0,            // Reserved             27
     0,            // Reserved             28
     0,            // Reserved             29
-    empty_def_handler,    // ADC 0 Seq 0            30
-    empty_def_handler,    // ADC 0 Seq 1            31
+    ADC0SS0Handler,    // ADC 0 Seq 0            30
+    ADC0SS1Handler,    // ADC 0 Seq 1            31
     empty_def_handler,    // ADC 0 Seq 2            32
     empty_def_handler,    // ADC 0 Seq 3            33
     empty_def_handler,    // WDT 0 and 1            34
@@ -123,14 +156,14 @@ void(* myvectors[])(void) = {
     0,            // Reserved             43
     empty_def_handler,    // System control         44
     empty_def_handler,    // Flash + EEPROM control     45
-    empty_def_handler,    // GPIO Port F            46
+    PortFHandler,    // GPIO Port F            46
     0,            // Reserved             47
     0,            // Reserved             48
     empty_def_handler,    // UART 2             49
     empty_def_handler,    // SSI 1              50
     empty_def_handler,    // 16/32 bit timer 3 A        51
     empty_def_handler,    // 16/32 bit timer 3 B        52
-    empty_def_handler,    // I2C 1              53
+    I2C1Handler,    // I2C 1              53
     0,            // Reserved             54
     empty_def_handler,    // CAN 0              55
     0,            // Reserved             56
@@ -141,8 +174,8 @@ void(* myvectors[])(void) = {
     0,            // Reserved             61
     empty_def_handler,    // UDMA SW              62
     empty_def_handler,    // UDMA Error           63
-    empty_def_handler,    // ADC 1 Seq 0            64
-    empty_def_handler,    // ADC 1 Seq 1            65
+  ADC1SS0Handler,    // ADC 1 Seq 0            64
+  ADC1SS1Handler,    // ADC 1 Seq 1            65
     empty_def_handler,    // ADC 1 Seq 2            66
     empty_def_handler,    // ADC 1 Seq 3            67
     0,            // Reserved             68
@@ -161,8 +194,8 @@ void(* myvectors[])(void) = {
     0,            // Reserved             81
     0,            // Reserved             82
     0,            // Reserved             83
-    empty_def_handler,    // I2C 2              84
-    empty_def_handler,    // I2C 4              85
+    I2C2Handler,    // I2C 2              84
+    I2C3Handler,    // I2C 3              85
     empty_def_handler,    // 16/32 bit timer 4 A        86
     empty_def_handler,    // 16/32 bit timer 4 B        87
     0,            // Reserved             88
@@ -185,25 +218,25 @@ void(* myvectors[])(void) = {
     0,            // Reserved             105
     0,            // Reserved             106
     0,            // Reserved             107
-    empty_def_handler,    // 16/32 bit timer 5 A        108
+    Timer5Handler,    // 16/32 bit timer 5 A        108
     empty_def_handler,    // 16/32 bit timer 5 B        109
-    empty_def_handler,    // 32/64 bit timer 0 A        110
-    empty_def_handler,    // 32/64 bit timer 0 B        111
-    empty_def_handler,    // 32/64 bit timer 1 A        112
-    empty_def_handler,    // 32/64 bit timer 1 B        113
-    empty_def_handler,    // 32/64 bit timer 2 A        114
-    empty_def_handler,    // 32/64 bit timer 2 B        115
-    empty_def_handler,    // 32/64 bit timer 3 A        116
-    empty_def_handler,    // 32/64 bit timer 3 B        117
-    empty_def_handler,    // 32/64 bit timer 4 A        118
-    empty_def_handler,    // 32/64 bit timer 4 B        119
-    empty_def_handler,    // 32/64 bit timer 5 A        120
-    empty_def_handler,    // 32/64 bit timer 5 B        121
-    empty_def_handler,    // System Exception         122
-    0,            // Reserved             123
-    0,            // Reserved             124
-    0,            // Reserved             125
-    0,            // Reserved             126
+    WTimer0AHandler,    // 32/64 bit timer 0 A        110
+    WTimer0BHandler,    // 32/64 bit timer 0 B        111
+    WTimer1AHandler,    // 32/64 bit timer 1 A        112
+    WTimer1BHandler,    // 32/64 bit timer 1 B        113
+    WTimer2AHandler,    // 32/64 bit timer 2 A        114
+    WTimer2BHandler,    // 32/64 bit timer 2 B        115
+    WTimer3AHandler,    // 32/64 bit timer 3 A        116
+    WTimer3BHandler,    // 32/64 bit timer 3 B        117
+    WTimer4AHandler,    // 32/64 bit timer 4 A        118
+    WTimer4BHandler,    // 32/64 bit timer 4 B        119
+    WTimer5AHandler,    // 32/64 bit timer 5 A        120
+    WTimer5BHandler,    // 32/64 bit timer 5 B        121
+    empty_def_handler,    // FPU         122
+    0,            // PECI             123
+    0,            // LPC             124
+    I2C4Handler,            // I2C4             125
+    I2C5Handler,            // I2C5             126
     0,            // Reserved             127
     0,            // Reserved             128
     0,            // Reserved             129

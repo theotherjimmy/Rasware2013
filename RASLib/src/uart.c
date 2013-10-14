@@ -28,7 +28,6 @@
 
 #include <StellarisWare/inc/hw_types.h>
 #include <StellarisWare/driverlib/gpio.h>
-#include <StellarisWare/utils/uartstdio.h>
 #include <StellarisWare/inc/hw_ints.h>
 #include <StellarisWare/inc/hw_memmap.h>
 #include <StellarisWare/inc/hw_types.h>

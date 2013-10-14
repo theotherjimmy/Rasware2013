@@ -5,8 +5,6 @@
 
 tMotor *motors[2];
 
-tMotor *motors[12];
-
 void initMotors(void) {
     motors[0] = InitializeMotor(PIN_B7, PIN_B6, true, false);
     motors[1] = InitializeMotor(PIN_E5, PIN_E4, true, false);

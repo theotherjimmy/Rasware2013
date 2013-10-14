@@ -60,3 +60,4 @@ void InitializeMCU(void)
     //Enable global interrupts
     IntMasterEnable();    
 }
+

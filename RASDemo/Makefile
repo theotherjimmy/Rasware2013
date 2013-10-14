@@ -11,15 +11,14 @@ TARGET      := RASDemo
 # List all the source files here
 SOURCES     := $(wildcard *.c)
 
-# Includes are located in the Include directory
-INCLUDES    := .
+INCLUDES    := ../
 
 # Path to the root of your ARM toolchain
 TOOL        := $(shell dirname `which arm-none-eabi-gcc`)
 
 # Path to the root of your StellarisWare folder
 ifeq (${Jimmy-P},yes)
-SW_DIR      := /opt/StellarisWare
+SW_DIR      := ${HOME}
 else
 TWD_DIR	:=  ../../TivaWare
 endif
@@ -81,27 +80,21 @@ CFLAGS     += -DPART_LM4F120H5QR
 CFLAGS     += -Dgcc
 CFLAGS     += -DTARGET_IS_BLIZZARD_RA1
 CFLAGS     += -fsingle-precision-constant
-ifeq (${Jimmy-P},yes)
-CFLAGS     += -I$(SW_DIR)/include -I$(INCLUDES)
-else
 CFLAGS     += -I$(SW_DIR) -I$(INCLUDES)
-endif
 
 LIBS	   += c
 LIBS	   += RAS
 LIBS       += driver-cm4f
+LIBS       += utils-cm4f
 LIBS	   += m
 LIBS	   += gcc
 
 LDFLAGS    += -T $(LD_SCRIPT)
 LDFLAGS    += -g
-LDFLAGS	   += -L ../RASLib/bin/
+LDFLAGS	   += -L ../RASLib/output/
 
-ifeq ($(Jimmy-P),yes)
-LDFLAGS	   += -L ${SW_DIR}/lib/
-else
-LDFLAGS	   += -L ${SW_DIR}/driverlib/gcc/
-endif
+LDFLAGS	   += -L ${SW_DIR}/StellarisWare/driverlib/gcc-cm4f/
+LDFLAGS	   += -L ${SW_DIR}/StellarisWare/driverlib/gcc-cm4f/
 
 ifeq (${FPU},hard)
 LDFLAGS    += -L ${TOOL}/../arm-none-eabi/lib/thumb/cortex-m4/float-abi-hard/fpuv4-sp-d16/
@@ -160,7 +153,7 @@ clean:
 flash: bin/${TARGET}.axf
 	$(FLASH) bin/$(TARGET).axf;                                              
 
-debug: flash  bin/${TARGET}.out
+debug: bin/${TARGET}.out
 	bash	./.debug bin/${TARGET}.out
 
 uart: flash
