@@ -84,4 +84,33 @@ Note: for windows 8, the drivers are unsigned, so installing them requires you t
 Setup for Linux (WIP)
 ---------------
 
-[TODO: Jimmy/Cruz]
+### Install Git, Screen
+Archlinux : 'pacman -S git screen'
+Ubuntu/Debian : 'apt-get install git screen'
+
+### Install Cross Compiler, Debugger ###
+Archlinux : install from you favorite AUR wrapper, for example 'pak -S arm-none-eabi-gcc arm-none-eabi-gdb
+Ubuntu/Debian : I don't use either of these Distro's so I would like someone else to help fill in this section (even if that just means donating there computer to me for a few hours).
+
+### Install Stellarisware
+1. Go to [TI](https://myportal.ti.com/portal/dt?provider=TIPassLoginSingleContainer&lt=myti&j5=2&j3=1&goto=https://my.ti.com/cgi-bin/home.pl) and create a new account.
+2. Go to [TI](http://www.ti.com/tool/sw-lm3s), and download SW-LM3S-LM4F.exe.
+3. When complete, extract the "executable" with unzip. for example by runnig : 'unzip -d StellarisWare SW-LM3S-LM4F.exe'
+4. Write down the path to stellariswore
+
+### Install drivers for the Launchpad ###
+1. copy the 75-lm4f.rules file to /etc/udev/rules.d (requires sudo)
+2. force a re-read of the udev rules by the udev daemon : 'udevadm control --reload'
+3. plug in the Launchpad. you should now see the file /dev/lm4f appear.
+
+### Compile and run RASDemo ###
+1. modify the makefile variable 'SW_PATH' to point to the location of StellarisWare.
+2. run the command 'make uart' from the RASDemo directory 
+
+### Committing code back to the repo
+1. While in the directory, run 'git status'.
+2. Now add at least one of the files marked as modified with 'git add'
+3. Run 'git commit' to commit these changes.
+4. Write useful commit comments. See [link](https://github.com/erlang/otp/wiki/Writing-good-commit-messages). Your teammates will thank you.
+5. You should now run a 'git push' to make your changes avalable through the GitHub.
+6. If you need to log in, check with a mentor to resetup 
