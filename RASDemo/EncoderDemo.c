@@ -1,35 +1,30 @@
-#include <inc/hw_types.h>		// tBoolean
-#include <inc/hw_memmap.h>
-//#include <utils/uartstdio.h>	// input/output over UART
-#include <driverlib/gpio.h>
-#include <driverlib/sysctl.h>
-
-#include "../RASLib/inc/encoder.h"
-
 #include "RASDemo.h"
+
+#include <RASLib/inc/common.h>
+#include <RASLib/inc/encoder.h>
+
+
+tEncoder *demoEncoder[2];
 
 tEncoder *demoEncoder[2];
 
 void initEncoders(void) {
-    demoEncoder[0] = InitializeEncoder(PIN_B0, PIN_B1);
-    demoEncoder[1] = InitializeEncoder(PIN_B2, PIN_B3);
+    demoEncoder[0] = InitializeEncoder(PIN_D0, PIN_D1, false);
+    demoEncoder[1] = InitializeEncoder(PIN_D2, PIN_D3, false);
 }
 
 void encoderDemo(void) {
-	// 2012 Encoder Demo Code
-	printf("Press:\nany key-read encoder values\n");
-	printf("any key after read begins-quit\n");
+    Printf("Press:\nany key-read encoder values\n");
+    Printf("any key after read begins-quit\n");
     
     ResetEncoder(demoEncoder[0]);
     ResetEncoder(demoEncoder[1]);
 
-    while(!keyWasPressed()) {
-        printf("enc0:%d  enc1:%d      \r",
-                   GetEncoder(demoEncoder[0]),
-                   GetEncoder(demoEncoder[1]) );
-	}
+    while(!KeyWasPressed()) {
+        Printf("enc0:%d  enc1:%d\r",
+                    GetEncoder(demoEncoder[0]),
+                    GetEncoder(demoEncoder[1]));
+    }
     
-	printf("\n");
-	
-	printf("Encoder Demo not working.\n");
+    Printf("\n");
 }

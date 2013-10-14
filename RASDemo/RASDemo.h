@@ -1,8 +1,3 @@
-// Functions in UARTDemo
-void initUART(void);
-void uartDemo(void);
-int keyWasPressed(void);
-#include <stdio.h>
 
 // Functions in MotorDemo
 
@@ -19,9 +14,18 @@ void lineSensorDemo(void);
 
 // Function in IRDemo
 void initIRSensor(void);
-long getADCValue(void);
 void IRSensorDemo(void);
 
 // Functions in EncoderDemo
 void initEncoders(void);
 void encoderDemo(void);
+
+// Function for UARTDemo
+void uartDemo(void);
+
+// Functions in SonarDemo
+void initSonar(void);
+void sonarDemo(void);
+
+// Function for GPIODemo
+void gpioDemo(void);

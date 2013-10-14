@@ -78,8 +78,6 @@ __heap_limit
 ; The vector table.
 ;
 ;******************************************************************************
-        EXTERN PeriodicFunctionHandler
-        EXTERN ADCTriggerHandler
         EXTERN ADC0SS0Handler
         EXTERN ADC0SS1Handler
         EXTERN ADC1SS0Handler
@@ -90,9 +88,26 @@ __heap_limit
         EXTERN PortDHandler
         EXTERN PortEHandler
         EXTERN PortFHandler
-        EXTERN Timer5BHandler
+        EXTERN SysTickHandler
+        EXTERN Timer5Handler
+        EXTERN WTimer0AHandler
+        EXTERN WTimer0BHandler
+        EXTERN WTimer1AHandler
+        EXTERN WTimer1BHandler
+        EXTERN WTimer2AHandler
+        EXTERN WTimer2BHandler
+        EXTERN WTimer3AHandler
+        EXTERN WTimer3BHandler
+        EXTERN WTimer4AHandler
+        EXTERN WTimer4BHandler
         EXTERN WTimer5AHandler
         EXTERN WTimer5BHandler
+        EXTERN I2C0Handler
+        EXTERN I2C1Handler
+        EXTERN I2C2Handler
+        EXTERN I2C3Handler
+        EXTERN I2C4Handler
+        EXTERN I2C5Handler
         
         EXPORT  __Vectors
 __Vectors
@@ -111,7 +126,7 @@ __Vectors
         DCD     IntDefaultHandler           ; Debug monitor handler
         DCD     0                           ; Reserved
         DCD     IntDefaultHandler           ; PendSV Handler
-        DCD     IntDefaultHandler           ; SysTick Handler
+        DCD     SysTickHandler              ; SysTick Handler
         DCD     PortAHandler                ; GPIO Port A
         DCD     PortBHandler                ; GPIO Port B
         DCD     PortCHandler                ; GPIO Port C
@@ -120,7 +135,7 @@ __Vectors
         DCD     IntDefaultHandler           ; UART0 Rx and Tx
         DCD     IntDefaultHandler           ; UART1 Rx and Tx
         DCD     IntDefaultHandler           ; SSI0 Rx and Tx
-        DCD     IntDefaultHandler           ; I2C0 Master and Slave
+        DCD     I2C0Handler                 ; I2C0 Master and Slave
         DCD     IntDefaultHandler           ; PWM Fault
         DCD     IntDefaultHandler           ; PWM Generator 0
         DCD     IntDefaultHandler           ; PWM Generator 1
@@ -149,7 +164,7 @@ __Vectors
         DCD     IntDefaultHandler           ; SSI1 Rx and Tx
         DCD     IntDefaultHandler           ; Timer 3 subtimer A
         DCD     IntDefaultHandler           ; Timer 3 subtimer B
-        DCD     IntDefaultHandler           ; I2C1 Master and Slave
+        DCD     I2C1Handler                 ; I2C1 Master and Slave
         DCD     IntDefaultHandler           ; Quadrature Encoder 1
         DCD     IntDefaultHandler           ; CAN0
         DCD     IntDefaultHandler           ; CAN1
@@ -180,8 +195,8 @@ __Vectors
         DCD     0                           ; Reserved
         DCD     0                           ; Reserved
         DCD     0                           ; Reserved
-        DCD     IntDefaultHandler           ; I2C2 Master and Slave
-        DCD     IntDefaultHandler           ; I2C3 Master and Slave
+        DCD     I2C2Handler                 ; I2C2 Master and Slave
+        DCD     I2C3Handler                 ; I2C3 Master and Slave
         DCD     IntDefaultHandler           ; Timer 4 subtimer A
         DCD     IntDefaultHandler           ; Timer 4 subtimer B
         DCD     0                           ; Reserved
@@ -204,25 +219,25 @@ __Vectors
         DCD     0                           ; Reserved
         DCD     0                           ; Reserved
         DCD     0                           ; Reserved
-        DCD     IntDefaultHandler           ; Timer 5 subtimer A
-        DCD     Timer5BHandler              ; Timer 5 subtimer B
-        DCD     IntDefaultHandler           ; Wide Timer 0 subtimer A
-        DCD     IntDefaultHandler           ; Wide Timer 0 subtimer B
-        DCD     IntDefaultHandler           ; Wide Timer 1 subtimer A
-        DCD     IntDefaultHandler           ; Wide Timer 1 subtimer B
-        DCD     IntDefaultHandler           ; Wide Timer 2 subtimer A
-        DCD     IntDefaultHandler           ; Wide Timer 2 subtimer B
-        DCD     IntDefaultHandler           ; Wide Timer 3 subtimer A
-        DCD     IntDefaultHandler           ; Wide Timer 3 subtimer B
-        DCD     IntDefaultHandler           ; Wide Timer 4 subtimer A
-        DCD     IntDefaultHandler           ; Wide Timer 4 subtimer B
+        DCD     Timer5Handler               ; Timer 5 subtimer A
+        DCD     IntDefaultHandler           ; Timer 5 subtimer B
+        DCD     WTimer0AHandler             ; Wide Timer 0 subtimer A
+        DCD     WTimer0BHandler             ; Wide Timer 0 subtimer B
+        DCD     WTimer1AHandler             ; Wide Timer 1 subtimer A
+        DCD     WTimer1BHandler             ; Wide Timer 1 subtimer B
+        DCD     WTimer2AHandler             ; Wide Timer 2 subtimer A
+        DCD     WTimer2BHandler             ; Wide Timer 2 subtimer B
+        DCD     WTimer3AHandler             ; Wide Timer 3 subtimer A
+        DCD     WTimer3BHandler             ; Wide Timer 3 subtimer B
+        DCD     WTimer4AHandler             ; Wide Timer 4 subtimer A
+        DCD     WTimer4BHandler             ; Wide Timer 4 subtimer B
         DCD     WTimer5AHandler             ; Wide Timer 5 subtimer A
         DCD     WTimer5BHandler             ; Wide Timer 5 subtimer B
         DCD     IntDefaultHandler           ; FPU
         DCD     IntDefaultHandler           ; PECI 0
         DCD     IntDefaultHandler           ; LPC 0
-        DCD     IntDefaultHandler           ; I2C4 Master and Slave
-        DCD     IntDefaultHandler           ; I2C5 Master and Slave
+        DCD     I2C4Handler                 ; I2C4 Master and Slave
+        DCD     I2C5Handler                 ; I2C5 Master and Slave
         DCD     IntDefaultHandler           ; GPIO Port M
         DCD     IntDefaultHandler           ; GPIO Port N
         DCD     IntDefaultHandler           ; Quadrature Encoder 2

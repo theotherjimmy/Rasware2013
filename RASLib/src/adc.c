@@ -1,6 +1,6 @@
 //*****************************************************************************
 //
-// adc.c - analog to digital converter drivers
+// adc - Analog to Digital converter drivers
 // 
 // THIS SOFTWARE IS PROVIDED "AS IS" AND WITH ALL FAULTS.
 // NO WARRANTIES, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT
@@ -17,20 +17,18 @@
 // at the University of Texas at Austin
 //
 // Website: ras.ece.utexas.edu
-// Contact: rasware@ras.ece.utexas.edu
+// Contact: ut.ieee.ras@gmail.com
 //
 //*****************************************************************************
 
-#include "inc/hw_types.h"
-#include "inc/hw_memmap.h"
-#include "inc/hw_ints.h"
-#include "inc/lm4f120h5qr.h"
-#include "driverlib/sysctl.h"
-#include "driverlib/timer.h"
-#include "driverlib/interrupt.h"
-#include "driverlib/adc.h"
-#include "driverlib/gpio.h"
 #include "adc.h"
+
+#include <StellarisWare/inc/hw_ints.h>
+#include <StellarisWare/inc/hw_memmap.h>
+#include <StellarisWare/driverlib/sysctl.h>
+#include <StellarisWare/driverlib/interrupt.h>
+#include <StellarisWare/driverlib/adc.h>
+#include <StellarisWare/driverlib/gpio.h>
 
 
 // Definition of ADC Pin-map for the TM4C1233H6PM / LM4F120H5QR/
@@ -52,9 +50,7 @@
 // Resolution is a property of the microcontroller
 // and is 12 bits for the LM4F
 #define ADC_RESOLUTION 12
-//this is max value +1
 #define ADC_MAX (1<<ADC_RESOLUTION)
-
 
 // The ADC read time is also per microcontroller
 // Yes, the ADC in the LM4F takes a single microsecond
@@ -210,7 +206,7 @@ tADC *InitializeADC(tPin pin) {
 
 
 // Internally used function to setup the continous sequence
-static void SetupContinous(tADCModule *mod, unsigned long trigger) {
+static void SetupContinuous(tADCModule *mod, unsigned long trigger) {
     tADC *adc = mod->contQueue;
     int i = 0;
     
@@ -263,8 +259,8 @@ void ADC##MOD##SS0Handler(void) {                   \
         adc->value = *d++;                          \
 }
 
-ADC_S0_HANDLER(0)
-ADC_S0_HANDLER(1)
+ADC_S0_HANDLER(0);
+ADC_S0_HANDLER(1);
 
 
 // Interrupt handlers for sequence 1, which is used
@@ -294,8 +290,8 @@ void ADC##MOD##SS1Handler(void) {                           \
         mod->singleEnd = &mod->singleQueue;                 \
 }
 
-ADC_S1_HANDLER(0)
-ADC_S1_HANDLER(1)
+ADC_S1_HANDLER(0);
+ADC_S1_HANDLER(1);
 
 
 // Interrupt handler for periodic calls
@@ -352,7 +348,7 @@ float ADCRead(tADC *adc) {
 // Any following calls to ADCRead will return the most recent value
 // If the passed time between calls is less than the time it takes for
 // the ADC to complete, the ADC will read as fast as possible without overlap
-void ADCReadContinouslyUS(tADC *adc, tTime us) {
+void ADCReadContinuouslyUS(tADC *adc, tTime us) {
     tADCModule *mod = adc->module;
     
     // First check if the module already has continous ADCs
@@ -381,13 +377,13 @@ void ADCReadContinouslyUS(tADC *adc, tTime us) {
     if (mod->period <= ADC_TIME * ADC_OVERSAMPLING_FACTOR) {
         // In which case we set it to always be triggered 
         // and clear the id
-        SetupContinous(mod, ADC_TRIGGER_ALWAYS);
+        SetupContinuous(mod, ADC_TRIGGER_ALWAYS);
         mod->id = 0;
         
     } else {
         // Just setup the sequence to trigger on a
         // scheduled interrupt for the given time
-        SetupContinous(mod, ADC_TRIGGER_PROCESSOR);
+        SetupContinuous(mod, ADC_TRIGGER_PROCESSOR);
         mod->id = CallEveryUS(ADCTriggerHandler, mod, mod->period);
     }
 
@@ -395,6 +391,6 @@ void ADCReadContinouslyUS(tADC *adc, tTime us) {
     adc->continous = true;
 }
     
-void ADCReadContinously(tADC *adc, float s) {
-    ADCReadContinouslyUS(adc, US(s));
+void ADCReadContinuously(tADC *adc, float s) {
+    ADCReadContinuouslyUS(adc, US(s));
 }
