@@ -18,7 +18,7 @@ TOOL        := $(shell dirname `which arm-none-eabi-gcc`)
 
 # Path to the root of your StellarisWare folder
 ifeq (${Jimmy-P},yes)
-SW_DIR      := /opt/StellarisWare
+SW_DIR      := ${HOME}
 else
 TWD_DIR	:=  ../../TivaWare
 endif
@@ -81,7 +81,7 @@ CFLAGS     += -Dgcc
 CFLAGS     += -DTARGET_IS_BLIZZARD_RA1
 CFLAGS     += -fsingle-precision-constant
 ifeq (${Jimmy-P},yes)
-CFLAGS     += -I$(SW_DIR)/include -I$(INCLUDES)
+CFLAGS     += -I$(SW_DIR) -I$(INCLUDES)
 else
 CFLAGS     += -I$(SW_DIR) -I$(INCLUDES)
 endif

@@ -30,22 +30,6 @@
 #include <StellarisWare/driverlib/timer.h>
 #include <StellarisWare/driverlib/interrupt.h>
 
-// Relevant task info
-typedef struct Task {
-    // Task identifier
-    int id;
-    
-    // Target time value
-    tTime target;
-    
-    // If repeating, then repeatTime 
-    // holds the period
-    tTime repeatTime;
-    
-    // Callback data
-    void *data;
-    tCallback callback;
-
 // Global System Clock
 // Only contains resolution to sysTickPeriod
 static volatile tTime systemTiming = 0;
@@ -246,11 +230,6 @@ void Timer5Handler(void) {
     // Setup the next task
     SetNextTaskInt();
 }
-
-// Schedules a callback function to be called in given microseconds
-// The return value can be used to stop the call with CallStop
-int CallInUS(tCallback callback, void *data, tTime us) {
-    tTask *task;
 
 // Schedules a callback function to be called in given microseconds
 // The return value can be used to stop the call with CallStop

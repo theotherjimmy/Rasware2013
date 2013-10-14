@@ -28,7 +28,17 @@
 
 #include <StellarisWare/inc/hw_types.h>
 #include <StellarisWare/driverlib/gpio.h>
-#include <StellarisWare/utils/uartstdio.c>
+#include <StellarisWare/utils/uartstdio.h>
+#include <StellarisWare/inc/hw_ints.h>
+#include <StellarisWare/inc/hw_memmap.h>
+#include <StellarisWare/inc/hw_types.h>
+#include <StellarisWare/inc/hw_uart.h>
+#include <StellarisWare/driverlib/debug.h>
+#include <StellarisWare/driverlib/interrupt.h>
+#include <StellarisWare/driverlib/rom.h>
+#include <StellarisWare/driverlib/rom_map.h>
+#include <StellarisWare/driverlib/sysctl.h>
+#include <StellarisWare/driverlib/uart.h>
 
 
 static const char * const g_pcHex_U = "0123456789ABCDEF";
