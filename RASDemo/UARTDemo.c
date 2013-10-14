@@ -4,13 +4,12 @@
 #include <driverlib/uart.h>		// input/output over UART
 #include <driverlib/gpio.h>
 #include <driverlib/sysctl.h>
+#include "../RASLib/inc/uart.h"
 
 #include "RASDemo.h"
 
 void initUART(void) {
-	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);				
-    GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);	
-    //UARTStdioInit(0);
+        InitializeUART();
 }
 
 void uartDemo(void) {

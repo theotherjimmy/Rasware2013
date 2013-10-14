@@ -30,6 +30,7 @@
 #include "driverlib/timer.h"
 #include "driverlib/interrupt.h"
 #include "driverlib/gpio.h"
+#include "driverlib/uart.h"
 #include "uart.h"
 
 // Sets up a simple console through UART0
@@ -37,6 +38,7 @@ void InitializeUART(void)
 {
     // Enable GPIO port A which is used for UART0 pins.
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);
 
     // Configure the pin muxing for UART0 functions on port A0 and A1.
     GPIOPinConfigure(GPIO_PA0_U0RX);
@@ -44,7 +46,8 @@ void InitializeUART(void)
 
     // Select the alternate (UART) function for these pins.
     GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);
+    UARTConfigSetExpClk(UART0_BASE, SysCtlClockGet(), 115200, (UART_CONFIG_PAR_NONE | UART_CONFIG_STOP_ONE | UART_CONFIG_WLEN_8));
+    
+    UARTEnable(UART0_BASE);
 
-    // Initialize the UART for console I/O.
-    //    UARTStdioInit(0);
 }
