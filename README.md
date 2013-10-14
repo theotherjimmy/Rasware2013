@@ -96,11 +96,11 @@ Ubuntu/Debian : I don't use either of these Distro's so I would like someone els
 1. Go to [TI](https://myportal.ti.com/portal/dt?provider=TIPassLoginSingleContainer&lt=myti&j5=2&j3=1&goto=https://my.ti.com/cgi-bin/home.pl) and create a new account.
 2. Go to [TI](http://www.ti.com/tool/sw-lm3s), and download SW-LM3S-LM4F.exe.
 3. When complete, extract the "executable" with unzip. for example by runnig : 'unzip -d StellarisWare SW-LM3S-LM4F.exe'
-4. Write down the path to stellariswore
+4. Write down the path to StellarisWare
 
 ### Install drivers for the Launchpad ###
 1. copy the 75-lm4f.rules file to /etc/udev/rules.d (requires sudo)
-2. force a re-read of the udev rules by the udev daemon : 'udevadm control --reload'
+2. force a re-read of the udev rules by the udev daemon : 'udevadm control --reload' (again, sudo required)
 3. plug in the Launchpad. you should now see the file /dev/lm4f appear.
 
 ### Compile and run RASDemo ###
