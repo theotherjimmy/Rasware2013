@@ -85,18 +85,28 @@ Setup for Linux (WIP)
 ---------------
 
 ### Install Git, Screen, OpenOCD
-Archlinux : 'pacman -S git screen openocd'
-Ubuntu/Debian : 'apt-get install git screen openocd'
+ * Archlinux : ```pacman -S git screen openocd```
+ * Ubuntu/Debian : ```apt-get install git screen openocd```
 
 ### Install Cross Compiler, Debugger ###
-Archlinux : install from you favorite AUR wrapper, for example 'pak -S arm-none-eabi-gcc arm-none-eabi-gdb
-Ubuntu/Debian : I don't use either of these Distro's so I would like someone else to help fill in this section (even if that just means donating there computer to me for a few hours).
+ * Archlinux : install from you favorite AUR wrapper, for example ```pak -S arm-none-eabi-gcc arm-none-eabi-gdb```
+ * Ubuntu/Debian : I don't use either of these Distro's so I would like someone else to help fill in this section (even if that just means donating there computer to me for a few hours).
 
 ### Install Stellarisware
 1. Go to [TI](https://myportal.ti.com/portal/dt?provider=TIPassLoginSingleContainer&lt=myti&j5=2&j3=1&goto=https://my.ti.com/cgi-bin/home.pl) and create a new account.
 2. Go to [TI](http://www.ti.com/tool/sw-lm3s), and download SW-LM3S-LM4F.exe.
-3. When complete, extract the "executable" with unzip. for example by running : 'unzip -d StellarisWare SW-LM3S-LM4F.exe'
+3. When complete, extract the "executable" with unzip. for example by running : ```unzip -d StellarisWare SW-LM3S-LM4F.exe```
 4. Write down the path to StellarisWare
+5. Change the makedefs file in the StellairWare directory so that it uses the FPU.
+Original line:
+```GNUMake
+FPU=-mfpu=fpv4-sp-d16 -mfloat-abi=soft-fp
+```
+
+Replace with:
+```GNUMake
+FPU=-mfpu=fpv4-sp-d16 -mfloat-abi=hard
+```
 
 ### Install drivers for the Launchpad ###
 1. copy the 75-lm4f.rules file to /etc/udev/rules.d (requires sudo)
