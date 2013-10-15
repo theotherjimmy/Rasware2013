@@ -84,9 +84,9 @@ Note: for windows 8, the drivers are unsigned, so installing them requires you t
 Setup for Linux (WIP)
 ---------------
 
-### Install Git, Screen
-Archlinux : 'pacman -S git screen'
-Ubuntu/Debian : 'apt-get install git screen'
+### Install Git, Screen, OpenOCD
+Archlinux : 'pacman -S git screen openocd'
+Ubuntu/Debian : 'apt-get install git screen openocd'
 
 ### Install Cross Compiler, Debugger ###
 Archlinux : install from you favorite AUR wrapper, for example 'pak -S arm-none-eabi-gcc arm-none-eabi-gdb
@@ -95,7 +95,7 @@ Ubuntu/Debian : I don't use either of these Distro's so I would like someone els
 ### Install Stellarisware
 1. Go to [TI](https://myportal.ti.com/portal/dt?provider=TIPassLoginSingleContainer&lt=myti&j5=2&j3=1&goto=https://my.ti.com/cgi-bin/home.pl) and create a new account.
 2. Go to [TI](http://www.ti.com/tool/sw-lm3s), and download SW-LM3S-LM4F.exe.
-3. When complete, extract the "executable" with unzip. for example by runnig : 'unzip -d StellarisWare SW-LM3S-LM4F.exe'
+3. When complete, extract the "executable" with unzip. for example by running : 'unzip -d StellarisWare SW-LM3S-LM4F.exe'
 4. Write down the path to StellarisWare
 
 ### Install drivers for the Launchpad ###

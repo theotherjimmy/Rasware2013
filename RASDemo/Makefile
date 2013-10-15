@@ -85,16 +85,15 @@ CFLAGS     += -I$(SW_DIR) -I$(INCLUDES)
 LIBS	   += c
 LIBS	   += RAS
 LIBS       += driver-cm4f
-LIBS       += utils-cm4f
 LIBS	   += m
 LIBS	   += gcc
 
 LDFLAGS    += -T $(LD_SCRIPT)
 LDFLAGS    += -g
-LDFLAGS	   += -L ../RASLib/output/
+LDFLAGS	   += -L ../RASLib/bin/
 
 LDFLAGS	   += -L ${SW_DIR}/StellarisWare/driverlib/gcc-cm4f/
-LDFLAGS	   += -L ${SW_DIR}/StellarisWare/driverlib/gcc-cm4f/
+LDFLAGS	   += -L ${SW_DIR}/StellarisWare/utils/gcc-cm4f/
 
 ifeq (${FPU},hard)
 LDFLAGS    += -L ${TOOL}/../arm-none-eabi/lib/thumb/cortex-m4/float-abi-hard/fpuv4-sp-d16/
