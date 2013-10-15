@@ -99,11 +99,11 @@ Setup for Linux (WIP)
 4. Write down the path to StellarisWare
 5. Change the makedefs file in the StellairWare directory so that it uses the FPU.
     * Original line:
-      ```GNUMake
+      ```
       FPU=-mfpu=fpv4-sp-d16 -mfloat-abi=soft-fp
       ```
     * Replace with:
-      ```GNUMake
+      ```
       FPU=-mfpu=fpv4-sp-d16 -mfloat-abi=hard
       ```
 
