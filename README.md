@@ -98,14 +98,14 @@ Setup for Linux (WIP)
 3. When complete, extract the "executable" with unzip. for example by running : ```unzip -d StellarisWare SW-LM3S-LM4F.exe```
 4. Write down the path to StellarisWare
 5. Change the makedefs file in the StellairWare directory so that it uses the FPU.
-   Original line:
-   ```GNUMake
-   FPU=-mfpu=fpv4-sp-d16 -mfloat-abi=soft-fp
-   ```
-   Replace with:
-   ```GNUMake
-   FPU=-mfpu=fpv4-sp-d16 -mfloat-abi=hard
-   ```
+    * Original line:
+      ```GNUMake
+      FPU=-mfpu=fpv4-sp-d16 -mfloat-abi=soft-fp
+      ```
+    * Replace with:
+      ```GNUMake
+      FPU=-mfpu=fpv4-sp-d16 -mfloat-abi=hard
+      ```
 
 ### Install drivers for the Launchpad ###
 1. copy the 75-lm4f.rules file to /etc/udev/rules.d (requires sudo)
