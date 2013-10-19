@@ -84,42 +84,75 @@ Note: for windows 8, the drivers are unsigned, so installing them requires you t
 Setup for Linux (WIP)
 ---------------
 
-### Install Git, Screen, OpenOCD
- * Archlinux : ```pacman -S git screen openocd```
- * Ubuntu/Debian : ```apt-get install git screen openocd```
+Just a quick warning: unlike Linux, Windows is actually supported by TI for the LM4F. 
+The Linux support is entirely supplied by hobbiest who have put together various toolchains for others to use. 
+This means that a Windows setup will be much easier to create. 
+However, Linux has many benefits, especially for coders, so these instructions are here for those who are already experienced with Linux and willing to take the challenge. 
+These instructions are written for use in a terminal (xterm, gterm, kterm, tty1, etc.) and assume that you have already installed, ard are farmiliar with, your favorite text editor.
+If you have not found a favorite text editor, I would reccoment you take a look at [Vim](vim.org), [Emacs](http://www.emacswiki.org/emacs/), and [SublimeText2](http://www.sublimetext.com/2).
 
-### Install Cross Compiler, Debugger ###
- * Archlinux : install from you favorite AUR wrapper, for example ```pak -S arm-none-eabi-gcc arm-none-eabi-gdb```
- * Ubuntu/Debian : I don't use either of these Distro's so I would like someone else to help fill in this section (even if that just means donating there computer to me for a few hours).
+### Setup a directory ###
+Create a directory to work in. This is where we will place everything. ```mkdir ras && cd ras```
 
-### Install Stellarisware
+
+### Install things required to develop with RASLib ###
+These instructions should work for any Linux distrobution, and have been tested on Arch and Debian. 
+If you are using a different package manager than apt-get or pacman, things should still work if you substitute the correct command.
+
+#### Git, Screen, libusb ####
+ * Archlinux : ```pacman -S git screen libusb```
+ * Ubuntu/Debian : ```apt-get install git screen libusb libusb-dev```
+
+#### LM4Flash ####
+  1. Clone the git repo from [lmftool](https://github.com/utzig/lm4tools) ```git clone https://github.com/utzig/lm4tools```
+  2. Run make ```cd lm4tools/lm4flash && make ```
+  3. Add the created executable to your PATH. For example, if your default shell is bash you might use the command:  ```echo export PATH=${PWD}:$${PATH} >> ${HOME}/.bashrc  && source ${HOME}/.bashrc```
+
+#### Cross Compiler, Debugger ####
+  1. Cross Compilers for the LM4F can be found [here](https://launchpad.net/gcc-arm-embedded)
+  2. Download and move to your ras directory. Be shure to get the compiler and debugger that has been compiled for your architecture.
+  3. Uncompress the file and install it your your /usr/local directory. 
+ 
+     ```
+     tar vfxj gcc-arm-none-eabi*.bz2 
+     sudo mv gcc-arm-none-eabi*/bin/* /usr/local/bin
+     sudo mv gcc-arm-none-eabi*/lib/* /usr/local/lib 
+     sudo mv gcc-arm-none-eabi*/share/* /usr/local/share 
+     sudo mv gcc-arm-none-eabi*/arm-none-eabi /usr/local 
+     rm -r gcc-arm-none-eabi*
+     ```
+
+  4. You should now be able to run the compiler. It should complain about missing input files, but that means that just means the compiler is working. ```arm-none-eabi-gcc```
+
+
+#### Stellarisware ####
 1. Go to [TI](https://myportal.ti.com/portal/dt?provider=TIPassLoginSingleContainer&lt=myti&j5=2&j3=1&goto=https://my.ti.com/cgi-bin/home.pl) and create a new account.
 2. Go to [TI](http://www.ti.com/tool/sw-lm3s), and download SW-LM3S-LM4F.exe.
 3. When complete, extract the "executable" with unzip. for example by running : ```unzip -d StellarisWare SW-LM3S-LM4F.exe```
-4. Write down the path to StellarisWare
-5. Change the makedefs file in the StellairWare directory so that it uses the FPU.
-    * Original line:
-      ```
-      FPU=-mfpu=fpv4-sp-d16 -mfloat-abi=soft-fp
-      ```
-    * Replace with:
-      ```
-      FPU=-mfpu=fpv4-sp-d16 -mfloat-abi=hard
-      ```
+4. Write down the path to StellarisWare. ```pwd`` will give you an absolute path.
+5. Run Make: ```cd StellarisWare && make ```
 
-### Install drivers for the Launchpad ###
-1. copy the 75-lm4f.rules file to /etc/udev/rules.d (requires sudo)
-2. force a re-read of the udev rules by the udev daemon : ```udevadm control --reload``` (again, sudo required)
-3. plug in the Launchpad. you should now see the file /dev/lm4f appear.
+#### RASLIB, Drivers for the Launchpad ####
+1. Clone this repo. the location should be to your right neer the top of the page ->
+1. Copy the RASLib/75-lm4f.rules file (from this repo) to /etc/udev/rules.d (requires sudo)
+2. Force a re-read of the udev rules by the udev daemon : ```udevadm control --reload``` (again, sudo required)
+3. Plug in the Launchpad. you should now see the file /dev/lm4f appear.
 
 ### Compile and run RASDemo ###
-1. modify the makefile variable 'SW_PATH' to point to the location of StellarisWare.
-2. run the command ```make uart``` from the RASDemo directory 
+Like most projects on Linux, Rasware can be compiled with make. We have created an example project to demonstrate how to use several useful peripherals with the Launchpad, like motors and line-sensors.
+From the RASDemo folder:
 
-### Committing code back to the repo
+1. Modify the makefile variable 'STELLARIS' to point to the location of StellarisWare. For example, the Makefile currently assumes that your StellarisWare is in your home directory (~).
+2. Build the code ```make``` 
+3. Flash the code to the board ```lm4flash bin/RASDemo.axf```
+4. Open the uart, using screen ```screen /dev/lm4f 115200```
+5. When you are done playing with the demo you can exit screen by typing ```C-a k y``` that is Ctrl and 'a' at the same time release 'k' release 'y'.
+6. If you don't want to do all of the above steps by hand each time, you can make the code, flash the board, and start screen all by running the command ```make uart```.
+
+### Committing code back to the repo ###
 1. While in the directory, run ```git status```.
 2. Now add at least one of the files marked as modified with ```git add```.
 3. Run ```git commit``` to commit these changes.
-4. Write useful commit comments. See [link](https://github.com/erlang/otp/wiki/Writing-good-commit-messages). Your teammates will thank you.
+4. Write useful commit comments. See [this page for help with commit comments](https://github.com/erlang/otp/wiki/Writing-good-commit-messages). Your teammates will thank you.
 5. You should now run a ```git push``` to make your changes avalable through the GitHub.
 6. If you need to log in, check with a mentor to resetup 
