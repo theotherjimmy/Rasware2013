@@ -89,7 +89,7 @@ The Linux support is entirely supplied by hobbiest who have put together various
 This means that a Windows setup will be much easier to create. 
 However, Linux has many benefits, especially for coders, so these instructions are here for those who are already experienced with Linux and willing to take the challenge. 
 These instructions are written for use in a terminal (xterm, gterm, kterm, tty1, etc.) and assume that you have already installed, ard are farmiliar with, your favorite text editor.
-If you have not found a favorite text editor, I would reccoment you take a look at [Vim](vim.org), [Emacs](http://www.emacswiki.org/emacs/), and [SublimeText2](http://www.sublimetext.com/2).
+If you have not found a favorite text editor, I would reccoment you take a look at [Vim](http://www.vim.org), [Emacs](http://www.emacswiki.org/emacs/), and [SublimeText2](http://www.sublimetext.com/2).
 
 ### Setup a directory ###
 Create a directory to work in. This is where we will place everything. ```mkdir ras && cd ras```
